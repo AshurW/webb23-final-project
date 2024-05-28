@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: django-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: django
@@ -14,6 +14,17 @@ spec:
     spec:
       containers:
       - name: django
-        image: your_django_app:latest
+        image: django_app:latest
         ports:
         - containerPort: 8000
+        env:
+        - name: DATABASE_NAME
+          value: django_db
+        - name: DATABASE_USER
+          value: postgres
+        - name: DATABASE_PASSWORD
+          value: postgres
+        - name: DATABASE_HOST
+          value: db
+        - name: DATABASE_PORT
+          value: "5432"
