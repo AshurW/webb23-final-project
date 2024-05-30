@@ -1,6 +1,6 @@
 docker-compose.yml
 Dockerfile
-
+#okej
 # Django #
 *.log
 *.pot
