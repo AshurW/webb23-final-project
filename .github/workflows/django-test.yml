@@ -1,14 +1,10 @@
-name: Django Test
-# test
-
-#testing 2
-#testing 3
+ python 
+python name: Django Test
 
 on:
   pull_request:
     branches: 
       - main
-
 
 jobs:
   test:
@@ -23,11 +19,18 @@ jobs:
           POSTGRES_DB: django_db
         ports:
           - 5432:5432
+        options: > 
+          --health-cmd="pg_isready -U postgres -d django_db" 
+          --health-interval=10s 
+          --health-timeout=5s 
+          --health-retries=5
 
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Wait for PostgreSQL
+        run: until pg_isready -h localhost -p 5432 -U postgres -d django_db; do sleep 1; done
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -40,7 +43,11 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run database migrations
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/django_db
         run: python blog_project/manage.py migrate
 
       - name: Run tests
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/django_db
         run: python blog_project/manage.py test
