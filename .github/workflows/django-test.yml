@@ -1,5 +1,5 @@
 
-python name: Django Test
+name: Django Test
 
 on:
   pull_request:
@@ -19,11 +19,7 @@ jobs:
           POSTGRES_DB: django_db
         ports:
           - 5432:5432
-        options: > 
-          --health-cmd="pg_isready -U postgres -d django_db" 
-          --health-interval=10s 
-          --health-timeout=5s 
-          --health-retries=5
+
 
     steps:
       - name: Checkout code
