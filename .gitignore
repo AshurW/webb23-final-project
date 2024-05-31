@@ -1,4 +1,7 @@
-
+docker-compose.yaml
+Dockerfile
+# Django #
+*.log
 
 # Django #
 *.log
