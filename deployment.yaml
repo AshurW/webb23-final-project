@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-deployment
+  #hur många repliker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+    #etikett för att hitta podden
+      app: blog
+  template:
+    metadata:
+      labels:
+        app: blog
+    spec:
+      containers:
+      - name: blog
+        image: final-project-sophie
+        imagePullPolicy: Never 
+        ports:
+        - containerPort: 8000
